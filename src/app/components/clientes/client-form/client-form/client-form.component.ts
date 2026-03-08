@@ -1,7 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormSubmissionRequest, FormTemplate, FormTemplateService } from '../../../../service/form-template/form-template.service';
+import {
+  FormSubmissionRequest,
+  FormTemplate,
+  FormTemplateService,
+} from '../../../../service/form-template/form-template.service';
+import { UserService } from '../../../../service/user/user.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-client-form',
@@ -10,33 +16,50 @@ import { FormSubmissionRequest, FormTemplate, FormTemplateService } from '../../
   imports: [CommonModule, ReactiveFormsModule],
 })
 export class ClientFormComponent implements OnInit {
-
   templates: FormTemplate[] = [];
   selectedTemplate: FormTemplate | null = null;
   formGroup: FormGroup = new FormGroup({});
 
   clientId = 2; // ID do cliente logado (exemplo)
+  userRole: string | null = null; 
 
-  constructor(private service: FormTemplateService, private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private service: FormTemplateService,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
+    this.userRole = this.userService.getRole();
+    console.log("[AQUIIIII NESSA PORRA]", this.userRole)
     this.loadTemplates();
   }
 
   loadTemplates() {
-    this.service.getTemplatesByClient(this.clientId).subscribe(res => {
-      this.templates = res;
-      console.log("[CARREGANDO TEMPLATE]", this.templates);
-      
-      this.cdr.detectChanges();
-    });
+    if (this.userService.getRole() === "ROLE_CLIENT") {
+      this.service.getTemplatesByClient(this.clientId).subscribe((res) => {
+        this.templates = res;
+        console.log('[CARREGANDO TEMPLATE]', this.templates);
+  
+        this.cdr.detectChanges();
+      });
+    }
+      else if (this.userService.getRole() === "ROLE_ADMIN") {
+        this.service.getTemplatesByAdmin(this.clientId).subscribe((res) => {
+        this.templates = res;
+        console.log('[CARREGANDO ESSA BDEGA]', this.templates);
+  
+        this.cdr.detectChanges();
+      });
+      }
   }
 
   selectTemplate(template: FormTemplate) {
     this.selectedTemplate = template;
 
     const group: any = {};
-    template.fields.forEach(f => {
+    template.fields.forEach((f) => {
       group[f.label] = new FormControl('');
     });
 
@@ -48,7 +71,7 @@ export class ClientFormComponent implements OnInit {
 
     const payload: FormSubmissionRequest = {
       formTemplateId: this.selectedTemplate.id,
-      data: this.formGroup.value
+      data: this.formGroup.value,
     };
 
     this.service.submitForm(payload).subscribe({
@@ -59,7 +82,7 @@ export class ClientFormComponent implements OnInit {
       error: (err: any) => {
         console.error(err);
         alert('Erro ao enviar formulário');
-      }
+      },
     });
   }
 }

@@ -43,6 +43,9 @@ export class FormTemplateService {
   getTemplatesByClient(clientId: number): Observable<FormTemplate[]> {
     return this.http.get<FormTemplate[]>(`${this.apiUrl}/form-templates/my-templates`);
   }
+  getTemplatesByAdmin(clientId: number): Observable<FormTemplate[]> {
+    return this.http.get<FormTemplate[]>(`${this.apiUrl}/form-templates`);
+  }
 
   // Cliente: enviar submissão
   submitForm(payload: FormSubmissionRequest): Observable<any> {
