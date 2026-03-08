@@ -24,16 +24,16 @@
         >
           Home
         </a>
-
-        <a
-          class="nav-link"
-          routerLink="/clients"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-        >
-          Criar novo cliente
-        </a>
-
+        @if (isAdmin) {
+          <a
+            class="nav-link"
+            routerLink="/clients"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+          >
+            Criar novo cliente
+          </a>
+        }
         <a
           class="nav-link"
           routerLink="/clients-list"
@@ -44,8 +44,6 @@
         </a>
       </div>
       <button type="button" class="btn btn-secondary" (click)="userService.logout()">Logout</button>
-
-
     </div>
   </div>
 </nav>

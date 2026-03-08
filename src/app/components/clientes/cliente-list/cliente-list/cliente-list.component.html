@@ -1,40 +1,20 @@
 <div class="container mt-4">
-
   <div class="d-flex justify-content-between mb-3">
-
     <h3>Clientes</h3>
 
     <div class="d-flex gap-2">
+      <button type="button" class="btn btn-primary" (click)="redirectToHome()">voltar</button>
 
-      <button
-        type="button"
-        class="btn btn-primary"
-        (click)="redirectToHome()"
-      >
-        voltar
-      </button>
-
-  
-        <button
-          class="btn btn-primary"
-          routerLink="/clients/create"
-        >
-          Novo Cliente
-        </button>
-      
-
+      @if (isAdmin) {
+        <button class="btn btn-primary" routerLink="/clients/create">Novo Cliente</button>
+      }
     </div>
-
   </div>
 
   <div class="card shadow">
-
     <div class="card-body">
-
       <table class="table table-striped">
-
         <thead>
-
           <tr>
             <th>ID</th>
             <th>Nome</th>
@@ -44,54 +24,32 @@
             @if (isAdmin) {
               <th>Ações</th>
             }
-
           </tr>
-
         </thead>
 
         <tbody>
-
           @for (client of clients; track client.id) {
-
             <tr>
-
               <td>{{ client.id }}</td>
               <td>{{ client.name }}</td>
               <td>{{ client.email }}</td>
               <td>{{ client.company }}</td>
 
               @if (isAdmin) {
-
                 <td>
-
-                  <button
-                    class="btn btn-sm btn-warning"
-                    (click)="editClient(client.id)"
-                  >
+                  <button class="btn btn-sm btn-warning" (click)="editClient(client.id)">
                     Editar
                   </button>
 
-                  <button
-                    class="btn btn-sm btn-danger ms-2"
-                    (click)="deleteClient(client.id)"
-                  >
+                  <button class="btn btn-sm btn-danger ms-2" (click)="deleteClient(client.id)">
                     Deletar
                   </button>
-
                 </td>
-
               }
-
             </tr>
-
           }
-
         </tbody>
-
       </table>
-
     </div>
-
   </div>
-
 </div>
