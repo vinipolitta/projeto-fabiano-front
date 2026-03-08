@@ -1,6 +1,6 @@
 // Componente standalone para tela Home
 import { Component } from '@angular/core';
-import { parseJwt } from '../../jwt.interceptor';
+import { JwtPayload, parseJwt } from '../../jwt.interceptor';
 import { SharedModule } from '../../shared/shared.module';
 import { RouterOutlet } from '@angular/router';
 import { HeaderInterface } from '../../shared/models/header';
@@ -19,7 +19,7 @@ import { HeaderInterface } from '../../shared/models/header';
 export class HomeComponent {
   username = '';
   role = '';
-  userLogged!: HeaderInterface;
+  userLogged: JwtPayload | null = null; // ⚠️ permitir null
 
   constructor() {
     const token = localStorage.getItem('jwt');

@@ -1,5 +1,7 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 interface UserPayload {
   username: string;
@@ -10,9 +12,19 @@ interface UserPayload {
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+  ) {}
+
+  private apiUrl = 'http://localhost:8080/users';
 
   user = signal<UserPayload | null>(null);
+
+  getUsers(page: number, size: number): Observable<any> {
+    let params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<any>(this.apiUrl, { params });
+  }
 
   loadUserFromToken() {
     const token = localStorage.getItem('jwt');
@@ -26,8 +38,7 @@ export class UserService {
       role: payload.role,
     });
 
-    console.log("[SERVICE USER]",this.user);
-    
+    console.log('[SERVICE USER]', this.user);
   }
 
   getUsername(): string | null {
