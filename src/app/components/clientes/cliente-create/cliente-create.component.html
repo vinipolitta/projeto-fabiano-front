@@ -27,6 +27,20 @@
           </div>
 
           <div class="col-md-6 mb-3">
+            <label class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="username"
+              placeholder="Digite o username do cliente"
+            />
+
+            <div class="text-danger" *ngIf="clientForm.get('username')?.invalid && clientForm.get('username')?.touched">
+              Nome é obrigatório
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
             <label class="form-label">Email</label>
             <input
               type="email"
