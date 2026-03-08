@@ -21,8 +21,8 @@ export interface FormTemplate {
 }
 
 export interface FormSubmissionRequest {
-  formTemplateId: number;
-  data: { [key: string]: string };
+  templateId: number;          // ⚡ chama "templateId" igual backend
+  values: { [key: string]: string };  // ⚡ chama "values" igual backend
 }
 
 @Injectable({
@@ -48,9 +48,11 @@ export class FormTemplateService {
   }
 
   // Cliente: enviar submissão
-  submitForm(payload: FormSubmissionRequest): Observable<any> {
-    return this.http.post(`${this.apiUrl}/form-submissions`, payload);
-  }
+submitForm(payload: FormSubmissionRequest): Observable<any> {
+  console.log("Payload enviado ao backend:", payload);
+
+  return this.http.post(`${this.apiUrl}/form-submissions`, payload);
+}
 
   // Admin: buscar todos os clientes
   getClients(): Observable<{ id: number; name: string }[]> {

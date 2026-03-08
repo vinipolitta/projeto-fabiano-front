@@ -70,8 +70,8 @@ export class ClientFormComponent implements OnInit {
     if (!this.selectedTemplate) return;
 
     const payload: FormSubmissionRequest = {
-      formTemplateId: this.selectedTemplate.id,
-      data: this.formGroup.value,
+      templateId  : this.selectedTemplate.id,
+      values: this.formGroup.value,
     };
 
     this.service.submitForm(payload).subscribe({
