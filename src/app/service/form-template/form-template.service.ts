@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface FormField {
@@ -23,6 +23,13 @@ export interface FormTemplate {
 export interface FormSubmissionRequest {
   templateId: number;          // ⚡ chama "templateId" igual backend
   values: { [key: string]: string };  // ⚡ chama "values" igual backend
+}
+
+export interface FormSubmission {
+  id: number;
+  templateName: string;
+  createdAt : string;
+  values: { [key: string]: string };
 }
 
 @Injectable({
@@ -53,6 +60,14 @@ submitForm(payload: FormSubmissionRequest): Observable<any> {
 
   return this.http.post(`${this.apiUrl}/form-submissions`, payload);
 }
+
+  // Buscar submissões de um template específico
+  getSubmissionsByTemplate(templateId: number): Observable<FormSubmission[]> {
+    console.log("SAIDUASOIUDIOSAUDIOASUDOISAUDOISA", templateId);
+    
+    const params = new HttpParams().set('templateId', templateId.toString());
+    return this.http.get<FormSubmission[]>(`${this.apiUrl}/form-submissions`, { params });
+  }
 
   // Admin: buscar todos os clientes
   getClients(): Observable<{ id: number; name: string }[]> {

@@ -7,6 +7,7 @@ import { ClienteCreateComponent } from './components/clientes/cliente-create/cli
 import { ClienteListComponent } from './components/clientes/cliente-list/cliente-list/cliente-list.component';
 import { CreateTemplateComponent } from './components/template/create-template/create-template.component';
 import { ClientFormComponent } from './components/clientes/client-form/client-form/client-form.component';
+import { CadastroFormListComponent } from './components/cadastros-forms-list/cadastro-form-list/cadastro-form-list.component';
 // Rotas da aplicação
 export const routes: Routes = [
   {
@@ -43,5 +44,9 @@ export const routes: Routes = [
   {
     path: 'client-templates',
     component: ClientFormComponent // cliente vê e preenche templates
+  },
+  {
+    path: 'list-templates',
+    component: CadastroFormListComponent // cliente vê e preenche templates
   }
 ];

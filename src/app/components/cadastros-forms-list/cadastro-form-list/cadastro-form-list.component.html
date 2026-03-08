@@ -1,0 +1,35 @@
+<div class="submission-list-container">
+  <h2>Submissões do Formulário</h2>
+
+  <div *ngIf="loading" class="alert alert-info">
+    Carregando...
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!loading && submissions.length === 0" class="alert alert-warning">
+    Nenhuma submissão encontrada para este template.
+  </div>
+
+  <div *ngIf="submissions.length > 0" class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>Enviado em</th>
+          <!-- Cabeçalhos dinâmicos -->
+          <th *ngFor="let key of tableHeaders">{{ key }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let submission of submissions">
+          <td>{{ submission.createdAt  | date:'short' }}</td>
+          <!-- Valores dinâmicos -->
+          <td *ngFor="let key of tableHeaders">
+            {{ submission.values[key] || '-' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
