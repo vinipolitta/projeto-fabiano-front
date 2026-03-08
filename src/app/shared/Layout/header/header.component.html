@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand"> Bem vindo {{ userService.user()?.username }} </a>
+    <a class="navbar-brand">Bem vindo {{ userService.user()?.username }}</a>
 
     <button
       class="navbar-toggler"
@@ -24,33 +24,50 @@
         >
           Home
         </a>
-                  <a
-            class="nav-link"
-            routerLink="/users"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-          >
-            Usuarios
-          </a>
-        @if (isAdmin) {
-          <a
-            class="nav-link"
-            routerLink="/clients"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-          >
-            Criar novo cliente
-          </a>
-        }
+
         <a
           class="nav-link"
-          routerLink="/clients-list"
+          routerLink="/users"
+          *ngIf="userService.isAdmin()"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNavAltMarkup"
         >
-          CLientes Criados
+          Usuários
+        </a>
+
+        <!-- Rotas Admin -->
+        <a
+          class="nav-link"
+          routerLink="/create-template"
+          *ngIf="userService.isAdmin()"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+        >
+          Criar Template
+        </a>
+
+        <!-- Rotas Cliente -->
+        <a
+          class="nav-link"
+          routerLink="/client-templates"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+        >
+          Meus Templates
+        </a>
+
+        <!-- Rotas comuns -->
+        <a
+          class="nav-link"
+          routerLink="/clients-list"
+          *ngIf="userService.isAdmin()"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+        >
+          Clientes Criados
         </a>
       </div>
+
       <button type="button" class="btn btn-secondary" (click)="userService.logout()">Logout</button>
     </div>
   </div>

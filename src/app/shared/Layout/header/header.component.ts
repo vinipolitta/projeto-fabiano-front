@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../service/user/user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,7 @@ import { UserService } from '../../../service/user/user.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [CommonModule, RouterLink],
 })
 export class HeaderComponent implements OnInit {
   isAdmin = false;
@@ -30,5 +31,9 @@ export class HeaderComponent implements OnInit {
     localStorage.clear();
 
     this.router.navigate(['/login']);
+  }
+
+  isValid() {
+    return this.userService.getRole() === 'ROLE_CLIENT' || this.userService.getRole() === 'ROLE_ADMIN';
   }
 }

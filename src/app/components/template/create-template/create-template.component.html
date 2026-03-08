@@ -1,0 +1,44 @@
+<div class="container mt-3">
+  <h3>Criar Template de Formulário</h3>
+
+  <form [formGroup]="templateForm" (ngSubmit)="submit()">
+    <!-- Nome do template -->
+    <div class="mb-3">
+      <label>Nome do Template</label>
+      <input formControlName="name" class="form-control" placeholder="Ex: Cadastro de Cliente" />
+    </div>
+
+    <!-- Select de clientes -->
+    <div class="mb-3">
+      <label>Selecionar Cliente</label>
+      <select formControlName="clientId" class="form-select">
+        <option value="">-- Selecione --</option>
+        <option *ngFor="let c of clients" [value]="c.id">{{ c.name }}</option>
+      </select>
+    </div>
+
+    <!-- Campos dinâmicos -->
+    <div formArrayName="fields">
+      <div *ngFor="let field of fields.controls; let i = index" [formGroupName]="i" class="mb-2">
+        <input formControlName="label" placeholder="Label do campo" class="form-control mb-1" />
+        <select formControlName="type" class="form-select mb-1">
+          <option value="text">Texto</option>
+          <option value="number">Número</option>
+          <option value="date">Data</option>
+        </select>
+        <div class="form-check mb-2">
+          <input type="checkbox" formControlName="required" class="form-check-input" />
+          <label class="form-check-label">Obrigatório</label>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm" (click)="removeField(i)">
+          Remover Campo
+        </button>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary mt-2" (click)="addField()">
+      Adicionar Campo
+    </button>
+    <button type="submit" class="btn btn-primary mt-2">Criar Template</button>
+  </form>
+</div>
