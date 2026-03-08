@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { ClientService } from '../../../service/cliente.service';
+import { ClientService } from '../../../service/client/cliente.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -43,5 +43,9 @@ export class ClienteCreateComponent {
         alert('Erro ao criar cliente');
       },
     });
+  }
+
+  redirectToListClient() {
+    this.router.navigate(['/home']);
   }
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { UserService } from '../../../service/user.service';
+import { UserService } from '../../../service/user/user.service';
 
 @Component({
   selector: 'app-header',
@@ -30,10 +30,6 @@ export class HeaderComponent implements OnInit {
     localStorage.clear();
 
     this.router.navigate(['/login']);
-  }
-
-  redirectToAddClient () {
-    this.router.navigate(['/create-cliente']);
   }
 
 }

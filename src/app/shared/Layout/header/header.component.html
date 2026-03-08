@@ -25,14 +25,27 @@
           Home
         </a>
 
-        <a class="nav-link" routerLink="/create-cliente" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+        <a
+          class="nav-link"
+          routerLink="/clients"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+        >
           Criar novo cliente
         </a>
 
-        <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+        <a
+          class="nav-link"
+          routerLink="/clients-list"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+        >
           CLientes Criados
         </a>
       </div>
+      <button type="button" class="btn btn-secondary" (click)="userService.logout()">Logout</button>
+
+
     </div>
   </div>
 </nav>
