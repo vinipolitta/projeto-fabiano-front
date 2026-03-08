@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../service/user/user.service';
 import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -18,7 +19,8 @@ export class UserComponent {
 
   constructor(
     private userService: UserService, // ✅ injeta o service
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -84,5 +86,9 @@ export class UserComponent {
       console.error(e);
       this.error.set('Erro ao excluir usuário');
     }
+  }
+
+  voltarToHome() {
+    this.router.navigate(['/home']);
   }
 }
