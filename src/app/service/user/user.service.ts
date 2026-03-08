@@ -58,4 +58,8 @@ export class UserService {
     this.user.set(null);
     this.router.navigate(['/']);
   }
+
+  deleteUser(userId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${userId}`);
+  }
 }

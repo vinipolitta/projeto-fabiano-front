@@ -5,13 +5,13 @@
   <ul class="list-group mb-3">
     <li *ngFor="let t of templates"
         class="list-group-item"
-        (click)="selectTemplate(t)"
+        (click)="onTemplateSelect(t)"
         [class.active]="selectedTemplate?.id === t.id">
       {{ t.name }}
     </li>
   </ul>
 
-  <!-- Formulário dinâmico -->
+  <!-- Formulário dinâmico: só aparece se houver template selecionado -->
   <form [formGroup]="formGroup" *ngIf="selectedTemplate" (ngSubmit)="submit()">
     <div *ngFor="let f of selectedTemplate.fields" class="mb-2">
       <label>{{ f.label }}</label>
@@ -23,5 +23,10 @@
     <button class="btn btn-primary mt-2" type="submit">Enviar</button>
   </form>
 
-  <button class="btn btn-primary" (click)="goToList()">Lista forms preenchidos</button>
+  <!-- Botão para acessar a lista de formulários preenchidos -->
+  <button class="btn btn-secondary mt-3"
+          [disabled]="!selectedTemplateId"
+          (click)="goToList()">
+    Lista forms preenchidos
+  </button>
 </div>

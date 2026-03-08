@@ -78,9 +78,9 @@ export class UserComponent {
     }
   }
 
-  async deleteUser(id: string) {
+  async deleteUser(id: number) {
     try {
-      // await firstValueFrom(this.userService.deleteUser(id));
+      await firstValueFrom(this.userService.deleteUser(id));
       this.loadUsers();
     } catch (e) {
       console.error(e);

@@ -92,4 +92,16 @@ export class ClientFormComponent implements OnInit {
       },
     });
   }
+
+  onTemplateSelect(template: FormTemplate) {
+  this.selectedTemplate = template;
+  this.selectedTemplateId = template.id; // ⚡ sempre atualiza o ID correto
+
+  // ⚡ opcional: atualizar o formGroup para preencher o template selecionado
+  const group: any = {};
+  template.fields.forEach((f) => {
+    group[f.label] = new FormControl('');
+  });
+  this.formGroup = new FormGroup(group);
+}
 }
