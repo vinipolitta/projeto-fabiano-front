@@ -1,14 +1,11 @@
-// Componente standalone para tela de login
-import { Component, signal } from '@angular/core';
-import { ApiService } from '../api.service';
+import { Component, signal, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-/**
- * LoginComponent: tela de login com JWT.
- * Segue melhores práticas Angular 21.
- */
+import { AuthService } from '../../auth.service';
+import { UserService } from '../../service/user.service';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -16,34 +13,52 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrls: ['./login.component.scss'],
   imports: [CommonModule, ReactiveFormsModule]
 })
+export class LoginComponent implements OnInit {
 
-export class LoginComponent {
+  form!: FormGroup;
+
   error = signal<string | null>(null);
-  form: FormGroup;
-  private api = new ApiService();
-  private fb = new FormBuilder();
 
-  constructor(private route: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+
   }
 
   async onSubmit() {
+
     if (!this.form.valid) return;
+
     const { username, password } = this.form.value;
-    const result = await this.api.login({ username, password });
+
+    const result = await this.authService.login({ username, password });
+
     if (!result.token) {
+
       this.error.set('Usuário ou senha inválidos');
-    } else {
-      this.error.set(null);
-      localStorage.setItem('jwt', result.token);
-      window.location.href = '/home';
+
+      return;
     }
+
+    // carrega usuário do JWT
+    this.userService.loadUserFromToken();
+
+    this.router.navigate(['/home']);
+
   }
 
-  redirectToAddNewUser() {
-    this.route.navigate(['/register']);
+    redirectToAddNewUser() {
+    this.router.navigate(['/register']);
   }
+
 }

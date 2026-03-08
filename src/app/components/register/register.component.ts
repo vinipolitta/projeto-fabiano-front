@@ -1,6 +1,6 @@
 // Componente standalone para tela de cadastro
 import { Component, signal } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../service/api.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 

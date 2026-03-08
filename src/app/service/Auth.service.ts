@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 interface LoginRequest {
   username: string;
@@ -9,18 +9,19 @@ interface LoginResponse {
   token?: string;
 }
 
+interface RegisterRequest {
+  username: string;
+  password: string;
+  email?: string;
+  role?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
   private baseUrl = 'http://localhost:8080';
-
-  // JWT armazenado reativamente
-  private jwt = signal<string | null>(localStorage.getItem('jwt'));
-
-  // status autenticado
-  isAuthenticated = signal<boolean>(!!localStorage.getItem('jwt'));
 
   // LOGIN
   async login(payload: LoginRequest): Promise<LoginResponse> {
@@ -31,22 +32,21 @@ export class AuthService {
       body: JSON.stringify(payload)
     });
 
+    if (!res.ok) {
+      throw new Error('Erro ao fazer login');
+    }
+
     const data: LoginResponse = await res.json();
 
     if (data.token) {
-
       localStorage.setItem('jwt', data.token);
-
-      this.jwt.set(data.token);
-
-      this.isAuthenticated.set(true);
     }
 
     return data;
   }
 
   // REGISTER
-  async register(payload: any) {
+  async register(payload: RegisterRequest): Promise<any> {
 
     const res = await fetch(`${this.baseUrl}/auth/register`, {
       method: 'POST',
@@ -54,22 +54,26 @@ export class AuthService {
       body: JSON.stringify(payload)
     });
 
-    return res.json();
-  }
+    if (!res.ok) {
+      throw new Error('Erro ao registrar usuário');
+    }
 
-  // PEGAR TOKEN
-  getToken(): string | null {
-    return this.jwt();
+    return res.json();
   }
 
   // LOGOUT
   logout() {
-
     localStorage.removeItem('jwt');
+  }
 
-    this.jwt.set(null);
+  // PEGAR TOKEN
+  getToken(): string | null {
+    return localStorage.getItem('jwt');
+  }
 
-    this.isAuthenticated.set(false);
+  // VERIFICAR SE ESTÁ LOGADO
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('jwt');
   }
 
 }

@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { UserComponent } from './user/user.component';
-import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { UserComponent } from './components/user/user.component';
+import { HomeComponent } from './components/home/home.component';
+import { ClienteCreateComponent } from './components/clientes/cliente-create/cliente-create.component';
 
 // Rotas da aplicação
 export const routes: Routes = [
@@ -21,5 +22,10 @@ export const routes: Routes = [
 	{
 		path: 'users',
 		component: UserComponent
-	}
+	},
+	{
+		path: 'create-cliente',
+		component: ClienteCreateComponent
+	},
+
 ];

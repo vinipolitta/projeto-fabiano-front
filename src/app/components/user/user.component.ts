@@ -1,7 +1,7 @@
 // Componente standalone para CRUD de usuários
 import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../service/api.service';
 
 /**
  * UserComponent: gerenciamento de usuários (CRUD).
